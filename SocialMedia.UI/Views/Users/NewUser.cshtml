@@ -1,0 +1,93 @@
+﻿@model SocialMedia.UI.Models.UserVM
+
+@{
+    ViewData["Title"] = "New User";
+}
+
+<h1>Sign in</h1>
+
+
+<hr />
+@{
+    var css_class = TempData["Message"] != null ? "d-block" : "d-none";
+    
+}
+<div class="row mb-3">
+    <div class="col-5 alert alert-danger @css_class">
+        @Html.Raw(TempData["Message"])
+    </div>
+
+</div>
+<div class="row">
+    <div class="col-md-5">
+        <form asp-action="NewUser" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="@Model.SMUser.Name" class="control-label"></label>
+                <input asp-for="@Model.SMUser.Name" value="" class="form-control" />
+                <span asp-validation-for="@Model.SMUser.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Last Name</label>
+                <input asp-for="@Model.SMUser.Lastname" class="form-control" />
+                <span asp-validation-for="@Model.SMUser.Lastname" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.SMUser.Email" class="control-label"></label>
+                <input asp-for="@Model.SMUser.Email" class="form-control" />
+                <span asp-validation-for="@Model.SMUser.Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Birth Date</label>
+                <input id="datepicker" type="date" asp-for="@Model.SMUser.BirthDate" class="form-control" />
+                <span asp-validation-for="@Model.SMUser.BirthDate" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="@Model.SMUser.Phone" class="control-label"></label>
+                <input asp-for="@Model.SMUser.Phone" class="form-control" />
+                <span asp-validation-for="@Model.SMUser.Phone" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Profile Picture</label>
+                <input asp-for="@Model.Image" type="file" class="form-control" />
+                <span asp-validation-for="@Model.Image" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">Country</label>
+                <select asp-for="@Model.SMUser.CountryId" asp-items='@Model.Countries.data.Select(a=> new SelectListItem { Text=a.Name, Value=a.Id.ToString() })'
+                        class="form-select form-control">
+                    <option value="" selected>Your country</option>
+                </select>
+                <span asp-validation-for="@Model.SMUser.CountryId" class="text-danger"></span>
+            </div>
+
+
+            <div class="form-group">
+                <label class="control-label">Username</label>
+                <input asp-for="@Model.SMUser.UserName" class="form-control" />
+                <span asp-validation-for="@Model.SMUser.UserName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.SMUser.Password" class="control-label"></label>
+                <input type="password" asp-for="@Model.SMUser.Password" class="form-control" />
+                <span asp-validation-for="@Model.SMUser.Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Confirm your password</label>
+                <input type="password" asp-for="@Model.SMUser.ConfirmPassword" class="form-control" />
+                <span asp-validation-for="@Model.SMUser.ConfirmPassword" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

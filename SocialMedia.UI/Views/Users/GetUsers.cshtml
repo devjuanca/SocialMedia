@@ -1,0 +1,57 @@
+﻿@*@model SocialMedia.UI.ViewModels.UserListViewModel*@
+
+@{
+    ViewData["Title"] = "User List";
+}
+
+<h1>Users List</h1>
+
+<p>
+    <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapse" role="button" aria-expanded="false" aria-controls="collapseExample">
+        Apply filters to search
+    </a>
+
+</p>
+<div class="collapse" id="collapse">
+    <div class="card card-body mb-3">
+        <div class="col-4 mb-2">
+            <input class="form-control" id="name_input" placeholder="Name">
+        </div>
+        <div class="col-4 mb-2">
+            <input class="form-control" id="last_name_input" placeholder="Lastname">
+        </div>
+        <div class="col-4 mb-2">
+            <input type="email" class="form-control" id="email_input" placeholder="Email">
+        </div>
+        <div class="col-4 mb-2">
+            <input class="form-control" id="phone_input" placeholder="Phone">
+        </div>
+        <div class="col-4 mb-2">
+            <select id="country_list" class="form-select form-control" aria-label="Default select example">
+                <option selected>All countries</option>
+            </select>
+        </div>
+        <div class="col-4 mb-2">
+            <button id="search_button" type="button" class="btn btn-info">Search</button>
+        </div>
+
+    </div>
+</div>
+
+<div class="row">
+    <div id="paging_data" class="col-12">
+
+    </div>
+</div>
+
+<div class="row">
+    <div id="load_data" class="col-12">
+
+    </div>
+</div>
+
+
+
+@section Scripts {
+    <script src="~/js/GetUsers.js"></script>
+}

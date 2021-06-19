@@ -1,0 +1,2 @@
+﻿Esta carpeta contiene Exepciones personalizadas heredando de la interfaz IException.
+Estas excepciones seran disparadas en las secciones que se desee en el código y serán manejadas por un filtro de escepciones.
