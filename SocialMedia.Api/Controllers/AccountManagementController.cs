@@ -14,7 +14,7 @@ namespace SocialMedia.Api.Controllers
     [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
-    public class AccountManagementController : ControllerBase
+    public class AccountManagementController : Controller
     {
         readonly IChangePasswordService _changePasswordService;
         readonly IResetPasswordService _resetPasswordService;
@@ -34,9 +34,9 @@ namespace SocialMedia.Api.Controllers
         }
      
         [HttpPost("ResetPassword")]
-        public async Task<IActionResult> ResetPassword(string userName)
+        public async Task<IActionResult> ResetPassword(ForgotPassword forgotPassword)
         {
-            await _resetPasswordService.SendTokenToUser(userName);
+            await _resetPasswordService.SendTokenToUser(forgotPassword.Username);
             return Ok();
         }
         
@@ -44,7 +44,7 @@ namespace SocialMedia.Api.Controllers
         public async Task<IActionResult> PerformResetPassword([FromQuery] UserToken userToken)
         {
             await _resetPasswordService.ResetPassword(userToken);
-            return Ok();
+            return View("~/Views/PasswordResetSucceded.cshtml");
         }
     }
 }

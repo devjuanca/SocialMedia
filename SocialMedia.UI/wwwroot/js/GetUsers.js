@@ -21,6 +21,8 @@ $(document).ready(() => {
 
         queryString = queryString.substr(0, queryString.length - 1);
 
+  
+
         LoadData("/Users/GetUsersJson" + "?" + queryString);
         
     });

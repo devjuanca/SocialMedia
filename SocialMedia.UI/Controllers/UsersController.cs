@@ -153,5 +153,60 @@ namespace SocialMedia.UI.Controllers
                 return RedirectToAction("GetUsers");
             }
         }
+
+        public IActionResult ChangePassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ChangePassword([FromForm] ChangePasswordModel changePassword)
+        {
+            try
+            {
+                token = HttpContext.Session.GetString("JwtToken");
+                await _userService.ChangePassword("AccountManagement/ChangePassword", changePassword, token);
+                return RedirectToActionPermanent("Logout","Login");
+            }
+            catch (CustomApiException ex)
+            {
+                TempData["Message"] = ex.Errors.MyToString();
+                return View();
+            }
+            catch (Exception)
+            {
+                TempData["Message"] = "Sorry some error occured.";
+                return View();
+            }
+        }
+
+        [AllowAnonymous]
+        public IActionResult PasswordForgot()
+        {
+            return View();
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        public async Task<IActionResult> PasswordForgot([FromForm] ForgotPasswordModel forgotPassword)
+        {
+            try
+            {
+                await _userService.ForgotPassword("AccountManagement/ResetPassword", forgotPassword);
+                TempData["Message"] = "Please check your email to continue with the process.";
+                return View();
+            }
+            catch (CustomApiException ex)
+            {
+                TempData["Message"] = ex.Errors.MyToString();
+                return View();
+            }
+            catch (Exception)
+            {
+                TempData["Message"] = "Sorry some error occured.";
+                return View();
+            }
+        }
+       
     }
 }

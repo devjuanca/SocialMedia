@@ -20,7 +20,9 @@ namespace SocialMedia.UI.Services
     {
         Task ManageUser(string url, UserModel user, IFormFile image, int accion, string token);
         Task DeleteUser(string url, string id, string token);
-        
+        Task ChangePassword(string url, ChangePasswordModel change_password, string token);
+        Task ForgotPassword(string url, ForgotPasswordModel forgotPassword);
+
         Task<UserListViewModel> GetUsers(string url, UserQueryFilter filter, string token);
         Task<UserModel> GetUserById(string url, string id, string token);
     }
@@ -121,6 +123,35 @@ namespace SocialMedia.UI.Services
 
         }
 
+        public async Task ChangePassword(string url, ChangePasswordModel change_password, string token)
+        {
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            HttpContent content = new StringContent(JsonConvert.SerializeObject(change_password), Encoding.UTF8,"application/json");
+
+            var response = await _httpClient.PostAsync(url, content);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var exception = await response.Content.ReadFromJsonAsync<CustomApiException>();
+                throw exception;
+            }
+        }
+
+        public async Task ForgotPassword(string url, ForgotPasswordModel forgotPassword)
+        {
+            HttpContent content = new StringContent(JsonConvert.SerializeObject(forgotPassword), Encoding.UTF8, "application/json");
+
+            var response = await _httpClient.PostAsync(url, content);
+            
+            if (!response.IsSuccessStatusCode)
+            {
+                var exception = await response.Content.ReadFromJsonAsync<CustomApiException>();
+                throw exception;
+            }
+        }
+
+
         private static byte[] GetImageBytes(IFormFile image)
         {
 
@@ -159,5 +190,7 @@ namespace SocialMedia.UI.Services
             }
             return profile_photo;
         }
+
+
     }
 }
