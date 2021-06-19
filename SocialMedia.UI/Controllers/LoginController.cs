@@ -11,30 +11,34 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using SocialMedia.UI.Exceptions;
 using SocialMedia.UI.Extensions;
+using Microsoft.AspNetCore.Authorization;
+
 namespace SocialMedia.UI.Controllers
 {
     public class LoginController : Controller
     {
-        ILoginService _loginService;
+        readonly ILoginService _loginService;
 
         public LoginController(ILoginService loginService)
         {
             _loginService = loginService;
         }
+
         public IActionResult Login()
         {
             return View();
         }
+        
         [HttpPost]
         public async Task<IActionResult> Login([FromForm] LoginModel login)
         {
             try
             {
-                ViewData["Message"] = string.Empty;
-
                 var data_token = await _loginService.Login(login); //Hago el login y recupero objeto.
+                
                 var id = data_token.data.Id;
                 var roles = data_token.data.Roles;
+                var token = data_token.data.Token;
 
                 var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme); // creo in claimsIdentity con el tipo de autenticacion usada.
                 identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, id)); // añado al claim el Id
@@ -49,21 +53,22 @@ namespace SocialMedia.UI.Controllers
 
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
 
-                HttpContext.Session.SetString("JwtToken", data_token.data.Token); //Guardo el Token en Sesion.
+                HttpContext.Session.SetString("JwtToken", token); //Guardo el Token en Sesion.
 
                 return RedirectToAction("GetUsers", "Users");
             }
             catch (CustomApiException ex)
             {
-                ViewData["Message"] = ex.Errors.MyToString();
+                TempData["Message"] = ex.Errors.MyToString();
+                return View();
                 
             }
             catch (Exception)
             {
                 ViewData["Message"] = "Sorry some error occured.";
-
+                return View();
             }
-            return View();
+            
         }
 
         public async Task<IActionResult> Logout()
