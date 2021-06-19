@@ -30,8 +30,8 @@ namespace SocialMedia.Application.Repository.SMUser.Gets
         readonly SocialMediaContext _ctx;
         readonly PagingConfiguration _pagingConfiguration;
         readonly IUriService _uriService;
-        private string image_directory;
-        private string default_picture;
+        readonly private string image_directory;
+        readonly private string default_picture;
 
         readonly Dictionary<string, string[]> errors = new Dictionary<string, string[]>();
         public SMUser_Gets(SocialMediaContext ctx, IOptions<PagingConfiguration> pagingConfiguration, IUriService uriService)

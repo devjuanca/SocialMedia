@@ -33,7 +33,7 @@ namespace SocialMedia.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers(options =>
+            services.AddControllersWithViews(options =>
             {
                 options.Filters.Add<GlobalExeptionFilter>();
             });
@@ -42,6 +42,8 @@ namespace SocialMedia.Api
             // inabilitar la validacion del modelo de [ApiController])
             //Este metodo esta deprecated, mejor usar el manejo de errores por defecto de [ApiController]
             //y estandarizar el formato que la api regresa errores de la misma forma que el por defecto.
+
+            
 
             services.AddDbContext<SocialMediaContext>(options =>
             {

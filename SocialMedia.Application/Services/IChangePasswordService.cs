@@ -21,7 +21,7 @@ namespace SocialMedia.Application.Services
             _userManager = userManager;
             _errorsProcesing = errorsProcesing;
         }
-
+        
         public async Task ChangePassword(ChangePasswordEntity changePasswordEntity)
         {
             try

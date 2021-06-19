@@ -51,10 +51,7 @@
                             <input asp-for="Password" type="password" class="form-control" placeholder="password" /><br />
                             <span asp-validation-for="Password" class="text-danger"></span>
                         </div>
-                        <div class="row align-items-center remember">
-                            <input type="checkbox">Remember Me
-
-                        </div>
+                     
                         <div class="form-group">
 
                             <input type="submit" value="Login" class="btn float-right login_btn">
@@ -67,7 +64,7 @@
                         Don't have an account?<a asp-controller="Users" asp-action="NewUser">Sign Up</a>
                     </div>
                     <div class="d-flex justify-content-center">
-                        <a href="#">Forgot your password?</a>
+                        <a asp-controller="Users" asp-action="PasswordForgot" >Forgot your password?</a>
                     </div>
                 </div>
             </div>
