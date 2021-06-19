@@ -21,7 +21,6 @@ namespace SocialMedia.UI.Controllers
         [HttpGet]
         public async Task<JsonResult> GetCountries()
         {
-           
             var countries = await _countryService.GetCountries("Country");
             return Json(new {data = countries });
         }

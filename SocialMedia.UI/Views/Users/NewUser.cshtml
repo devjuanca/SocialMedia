@@ -10,8 +10,8 @@
 <hr />
 @{
     var css_class = TempData["Message"] != null ? "d-block" : "d-none";
-    
-}
+ }
+
 <div class="row mb-3">
     <div class="col-5 alert alert-danger @css_class">
         @Html.Raw(TempData["Message"])
