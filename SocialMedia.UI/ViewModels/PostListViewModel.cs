@@ -8,7 +8,7 @@ namespace SocialMedia.UI.ViewModels
 {
     public class PostListViewModel
     {
-        public List<PostModel> data { get; set; }
+        public List<PostViewModel> data { get; set; }
         
         public Metadata meta { get; set; }
     }

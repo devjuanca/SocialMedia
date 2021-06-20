@@ -1,4 +1,5 @@
 ﻿using SocialMedia.UI.Exceptions;
+using SocialMedia.UI.Models;
 using SocialMedia.UI.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -37,7 +38,16 @@ namespace SocialMedia.UI.Services
                 var exception = await response.Content.ReadFromJsonAsync<CustomApiException>();
                 throw exception;
             }
-            return await response.Content.ReadFromJsonAsync<PostListViewModel>();
+            var data = await response.Content.ReadFromJsonAsync<PostListViewModel>();
+
+            foreach (var item in data.data)
+            {
+                var response_comments = await _httpClient.GetAsync($"Comment/"+item.PostId);
+                var data_comments = await response_comments.Content.ReadFromJsonAsync<CommentViewModel>();
+                item.Comments = data_comments.data;
+            }
+
+            return data;
         }
     }
 }
