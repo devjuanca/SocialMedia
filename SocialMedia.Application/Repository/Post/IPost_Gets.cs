@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Linq.Dynamic.Core;
+using SocialMedia.Application.Services;
 
 namespace SocialMedia.Application.Repository.Post.Gets
 {
@@ -27,11 +28,16 @@ namespace SocialMedia.Application.Repository.Post.Gets
         readonly SocialMediaContext _ctx;
         readonly PagingConfiguration _pagingConfiguration;
         readonly Dictionary<string, string[]> errors = new Dictionary<string, string[]>();
-
-        public Post_Gets(SocialMediaContext ctx, IOptions<PagingConfiguration> pagingConfiguration)
+        readonly IUriService _uriService;
+        readonly private string image_directory;
+        readonly private string default_picture;
+        public Post_Gets(SocialMediaContext ctx, IOptions<PagingConfiguration> pagingConfiguration, IUriService uriService)
         {
             _ctx = ctx;
             _pagingConfiguration = pagingConfiguration.Value;
+            _uriService = uriService;
+            image_directory = $"{_uriService.BaseUri}/MyStaticFiles/Images/";
+            default_picture = $"{_uriService.BaseUri}/MyStaticFiles/Images/no_image.png";
         }
         //IOptions es una interfaz usada para inyectar un servicio que obtiene datos de una seccion del appsettings 
         //y se registra en el startup mediante services.Configure().
@@ -54,7 +60,9 @@ namespace SocialMedia.Application.Repository.Post.Gets
                     Description = a.Description,
                     Image = a.Image,
                     User_Id = a.SmuserId,
-                    SMUserName = a.Smuser.Name
+                    SMUserName = a.Smuser.Name,
+                    Name = a.Smuser.Name +" " + a.Smuser.Lastname,
+                    ProfilePhoto = a.Smuser.ProfilePhoto != null ? $"{image_directory}{a.Smuser.UserName}/{a.Smuser.ProfilePhoto}" : default_picture
                 });
                 if (filters.Id != null)
                 {

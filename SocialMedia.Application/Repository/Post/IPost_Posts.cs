@@ -2,6 +2,7 @@
 using SocialMedia.Application.Bussiness_Rules;
 using SocialMedia.Application.CustomExceptions;
 using SocialMedia.Application.DTOs;
+using SocialMedia.Application.Services;
 using SocialMedia.Persistence;
 using System;
 using System.Collections.Generic;
@@ -23,11 +24,14 @@ namespace SocialMedia.Application.Repository.Post.Posts
     {
         readonly SocialMediaContext _ctx;
         readonly IPostBussinessRules _bussiness_rules;
+
+
         Dictionary<string, string[]> errors = new Dictionary<string, string[]>();
         public Post_Posts(SocialMediaContext ctx, IPostBussinessRules bussiness_rules)
         {
             _ctx = ctx;
             _bussiness_rules = bussiness_rules;
+            
         }
         public async Task<PostCommandDTO> NewPost(PostCommandDTO postDTO)
         {
