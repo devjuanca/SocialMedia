@@ -2,8 +2,34 @@
 
     LoadData("GetJsonPosts");
 
+  
+
+    $("#comment_Button").click(function () {
+
+        var text = $("#commentText").val();
+        var post_id = $("#PostValue").val();
+
+        $.ajax({
+            url: "/Comment/AddComment",
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                PostId: post_id,
+                Description:text 
+            },
+            success: function (json) {
+                $('#exampleModal').modal('toggle');
+                LoadData("GetJsonPosts");
+            }
+        });
+
+    });
 
 });
+
+function ModalAndPostCod(cod) {
+    $("#PostValue").val(cod);
+}
 
 function LoadData(url) {
     $("#search_button").prop("disabled", true)
@@ -17,7 +43,7 @@ function LoadData(url) {
             var obj = json.data.data;
             var meta = json.data.meta;
             var obj0 = json.result;
-            console.log(obj)
+          
             if (obj0 == "Ok") {
                 for (var i = 0; i < obj.length; i++) {
                     content += '<div class="card mb-3" style="max-width: 90%;">' +
@@ -27,18 +53,16 @@ function LoadData(url) {
                     var comments = obj[i].comments;
                     if (comments != null)
                         for (var j = 0; j < comments.length; j++) {
-                            content += '<div class="card ml-3 " style="width: 97%;"><div class="card-body p-1"><div class="col-md-2"></div><div class="col-md-10">' +
+                            content += '<div class="card ml-3 mb-3 " style="width: 97%;"><div class="card-body p-1"><div class="col-md-2"></div><div class="col-md-10">' +
                                 '<h5 id="username_Comment" class="card-title">' + comments[j].smUserName + ' - ' + new Date(comments[j].date).toLocaleDateString() + '</h5>' +
                                 '<p id="comment_Text" class="card-text">' + comments[j].description + '</p >' +
-                                '</div></div></div></div>';
+                                '</div></div></div>';
 
                         }
 
-
-
-
-
-                    content += ' <input id="postid" type="hidden" value="' + obj[i].postId + '" /><button type="button" class="btn btn-primary m-2" data-toggle="modal" data-target="#exampleModal">' +
+                    content += ' <input id="postid" type="hidden" value="' + obj[i].postId + '" />' +
+                        '<button type="button" class="btn btn-primary m-2" data-toggle="modal" data-target="#exampleModal"' +
+                        ' onclick = ' + 'ModalAndPostCod(' + obj[i].postId+')>'+
                         'Leave a comment</button> </div></div></div>';
 
                 }

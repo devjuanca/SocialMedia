@@ -187,7 +187,9 @@ namespace SocialMedia.Application.Repository.SMUser.Posts
                 SMUser.BirthDate = userDto.BirthDate;
                 SMUser.Email = userDto.Email;
                 SMUser.PhoneNumber = userDto.Phone;
-                SMUser.ProfilePhoto = image_name;
+                if(image_name!=null)
+                    SMUser.ProfilePhoto = image_name;
+                SMUser.CountryId = userDto.CountryId;
                 //modifico los datos
 
                

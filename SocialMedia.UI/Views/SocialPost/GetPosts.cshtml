@@ -8,6 +8,9 @@
     <a class="btn btn-primary" data-toggle="collapse" href="#collapse" role="button" aria-expanded="false" aria-controls="collapseExample">
         Apply filters to search
     </a>
+    <a class="btn btn-primary" asp-controller="SocialPost" asp-action="NewPost" >
+        New Post
+    </a>
 </p>
 
 <div class="collapse" id="collapse">
@@ -42,7 +45,7 @@
     <div id="load_data" class="col-12">
 
     </div>
-
+    <input id="PostValue" type="hidden" />
     <div class="modal fade" id="exampleModal" tabindex="-1" data-backdrop="static" data-keyboard="false" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -51,7 +54,8 @@
                     <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <textarea id="comment_Text" class="form-control" cols="40" rows="5"></textarea>
+                    <textarea id="commentText" class="form-control"></textarea>
+                    
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

@@ -54,8 +54,8 @@ namespace SocialMedia.UI
             services.AddTransient<ILoginService, LoginService>();
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<ICountryService, CountryService>();
-            services.AddTransient<IPostsService, PostsService>();
-
+            services.AddTransient<IPostsService, PostsService>(); 
+            services.AddTransient<ICommentService, CommentService>();
             var assamblies = AppDomain.CurrentDomain.GetAssemblies();
 
             services.AddMvcCore()
