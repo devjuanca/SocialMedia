@@ -27,7 +27,8 @@ namespace SocialMedia.UI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddCookie(options => {
+                .AddCookie(options =>
+                {
                     options.Cookie.HttpOnly = true;
                     options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
                     options.LoginPath = "/Login/Login";
@@ -37,7 +38,8 @@ namespace SocialMedia.UI
                 });
 
             services.AddControllersWithViews();
-            //services.AddHttpClient();
+
+
             services.AddHttpClient("ClientSMApi", options =>
             {
                 options.BaseAddress = new Uri(Configuration["ApiUri"]);
@@ -52,10 +54,14 @@ namespace SocialMedia.UI
             services.AddTransient<ILoginService, LoginService>();
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<ICountryService, CountryService>();
+            services.AddTransient<IPostsService, PostsService>();
+
             var assamblies = AppDomain.CurrentDomain.GetAssemblies();
-            services.AddMvcCore().AddFluentValidation(options =>
+
+            services.AddMvcCore()
+                .AddFluentValidation(options =>
             {
-                options.RegisterValidatorsFromAssemblies(AppDomain.CurrentDomain.GetAssemblies());
+                options.RegisterValidatorsFromAssemblies(assamblies);
 
 
             });
@@ -67,9 +73,9 @@ namespace SocialMedia.UI
                 options.Cookie.IsEssential = true;
             });
 
-      
 
-           
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -94,13 +100,13 @@ namespace SocialMedia.UI
             options.AllowAnyOrigin()
            .AllowAnyMethod()
            .AllowAnyHeader()
-           ); 
-            
+           );
+
             app.UseSession();
 
             app.UseAuthentication();
             app.UseAuthorization();
-           
+
 
             app.UseEndpoints(endpoints =>
             {
