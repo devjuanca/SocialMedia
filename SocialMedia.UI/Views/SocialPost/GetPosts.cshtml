@@ -16,17 +16,12 @@
 <div class="collapse" id="collapse">
     <div class="card card-body mb-3">
         <div class="col-4 mb-2">
-            <input class="form-control" id="name_input" placeholder="Name">
+            <input class="form-control" id="description_input" placeholder="Description">
         </div>
         <div class="col-4 mb-2">
-            <input class="form-control" id="last_name_input" placeholder="Lastname">
+            <input class="form-control" type="date" id="date_input" placeholder="Date">
         </div>
-        <div class="col-4 mb-2">
-            <input type="email" class="form-control" id="email_input" placeholder="Email">
-        </div>
-        <div class="col-4 mb-2">
-            <input class="form-control" id="phone_input" placeholder="Phone">
-        </div>
+        
 
         <div class="col-4 mb-2">
             <button id="search_button" type="button" class="btn btn-info">Search</button>
@@ -60,6 +55,9 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     <button id="comment_Button" type="button" class="btn btn-primary">Send</button>
+                </div>
+                <div id="validation_div" class="alert alert-danger d-none m-2">
+                    You must write a comment.
                 </div>
             </div>
         </div>

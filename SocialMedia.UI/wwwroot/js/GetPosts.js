@@ -5,25 +5,56 @@
   
 
     $("#comment_Button").click(function () {
-
+       
         var text = $("#commentText").val();
         var post_id = $("#PostValue").val();
-
-        $.ajax({
-            url: "/Comment/AddComment",
-            type: 'POST',
-            dataType: 'json',
-            data: {
-                PostId: post_id,
-                Description:text 
-            },
-            success: function (json) {
-                $('#exampleModal').modal('toggle');
-                LoadData("GetJsonPosts");
-            }
-        });
+       
+        if (text != '') {
+          
+            $.ajax({
+                url: "/Comment/AddComment",
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    PostId: post_id,
+                    Description: text
+                },
+                success: function (json) {
+                    $('#exampleModal').modal('toggle');
+                    LoadData("GetJsonPosts");
+                }
+            });
+        }
+        else {
+            console.log(text)
+            $("#validation_div").removeClass("d-none")
+            $("#validation_div").addClass("d-block")
+        }
 
     });
+
+
+    $("#search_button").click(function () {
+
+        var description = $('#description_input').val();
+        var date = $('#date_input').val();
+
+
+        var queryString = description != null ? "descriptionSearch=" + description + "&" : null;
+        queryString += date != null ? "date=" + date + "&" : null;
+
+        queryString = queryString.substr(0, queryString.length - 1);
+
+
+        LoadData("/SocialPost/GetJsonPosts" + "?" + queryString);
+
+
+    });
+
+
+
+
+
 
 });
 
@@ -63,9 +94,26 @@ function LoadData(url) {
                     content += ' <input id="postid" type="hidden" value="' + obj[i].postId + '" />' +
                         '<button type="button" class="btn btn-primary m-2" data-toggle="modal" data-target="#exampleModal"' +
                         ' onclick = ' + 'ModalAndPostCod(' + obj[i].postId+')>'+
-                        'Leave a comment</button> </div></div></div>';
+                        'Leave a comment</button> </div></div></div></div>';
 
                 }
+
+                var state_previous = (meta.hasPrevious != true) ? 'disabled' : '';
+                var state_next = (meta.hasNext != true) ? 'disabled' : '';
+
+                var next_function = 'LoadData("/SocialPost/GetJsonPosts' + meta.nextPageUrl + '");';
+                var previous_function = 'LoadData("/SocialPost/GetJsonPosts' + meta.previousPageUrl + '");';
+
+                var paging_content = '<p class="mb-1"> Page ' + meta.currentPage + ' of ' + meta.totalPages + ' | Showing ' + obj.length + ' of ' + meta.itemsCount + ' users.</p>';
+                paging_content += '<br/>' +
+                    '<nav aria-label="Page navigation example"><ul class="pagination">' +
+                    '<button id="previous_button" type="button" onclick=' + previous_function + ' class="btn btn-md btn-primary" ' + state_previous + '>Previous</button>' +
+                    '<button id="next_button" type="button" onclick=' + next_function + ' class="btn btn-md btn-primary ml-1" ' + state_next + '>Next</button>'
+                '</ul ></nav > '
+
+
+                $("#paging_data").html(paging_content);
+
 
                 $("#load_data").html(content);
 
