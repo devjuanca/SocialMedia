@@ -8,22 +8,20 @@
     <a class="btn btn-primary" data-toggle="collapse" href="#collapse" role="button" aria-expanded="false" aria-controls="collapseExample">
         Apply filters to search
     </a>
+    <a class="btn btn-primary" asp-controller="SocialPost" asp-action="NewPost" >
+        New Post
+    </a>
 </p>
 
 <div class="collapse" id="collapse">
     <div class="card card-body mb-3">
         <div class="col-4 mb-2">
-            <input class="form-control" id="name_input" placeholder="Name">
+            <input class="form-control" id="description_input" placeholder="Description">
         </div>
         <div class="col-4 mb-2">
-            <input class="form-control" id="last_name_input" placeholder="Lastname">
+            <input class="form-control" type="date" id="date_input" placeholder="Date">
         </div>
-        <div class="col-4 mb-2">
-            <input type="email" class="form-control" id="email_input" placeholder="Email">
-        </div>
-        <div class="col-4 mb-2">
-            <input class="form-control" id="phone_input" placeholder="Phone">
-        </div>
+        
 
         <div class="col-4 mb-2">
             <button id="search_button" type="button" class="btn btn-info">Search</button>
@@ -42,7 +40,7 @@
     <div id="load_data" class="col-12">
 
     </div>
-
+    <input id="PostValue" type="hidden" />
     <div class="modal fade" id="exampleModal" tabindex="-1" data-backdrop="static" data-keyboard="false" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -51,11 +49,15 @@
                     <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <textarea id="comment_Text" class="form-control" cols="40" rows="5"></textarea>
+                    <textarea id="commentText" class="form-control"></textarea>
+                    
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     <button id="comment_Button" type="button" class="btn btn-primary">Send</button>
+                </div>
+                <div id="validation_div" class="alert alert-danger d-none m-2">
+                    You must write a comment.
                 </div>
             </div>
         </div>

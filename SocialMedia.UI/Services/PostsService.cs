@@ -1,5 +1,7 @@
-﻿using SocialMedia.UI.Exceptions;
+﻿using Newtonsoft.Json;
+using SocialMedia.UI.Exceptions;
 using SocialMedia.UI.Models;
+using SocialMedia.UI.QueryFilters;
 using SocialMedia.UI.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -7,13 +9,15 @@ using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace SocialMedia.UI.Services
 {
     public interface IPostsService
     {
-        Task<PostListViewModel> GetPosts(string url, string token);
+        Task<PostListViewModel> GetPosts(string url, PostQueryFilter filter, string token);
+        Task AddPost(string url, string token, PostCommandViewModel post);
     }
 
     public class PostsService : IPostsService
@@ -27,11 +31,11 @@ namespace SocialMedia.UI.Services
             _httpClient = _httpClientFactory.CreateClient("ClientSMApi");
         }
 
-        public async Task<PostListViewModel> GetPosts(string url, string token)
+        public async Task<PostListViewModel> GetPosts(string url, PostQueryFilter filter, string token)
         {
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
-            var response = await _httpClient.GetAsync($"{url}");
+            var response = await _httpClient.GetAsync($"{url}{filter.ToString()}");
 
             if (!response.IsSuccessStatusCode)
             {
@@ -48,6 +52,22 @@ namespace SocialMedia.UI.Services
             }
 
             return data;
+        }
+
+        public async Task AddPost(string url, string token, PostCommandViewModel post)
+        {
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            HttpContent content = new StringContent(JsonConvert.SerializeObject(post), Encoding.UTF8, "application/json");
+
+            var response = await _httpClient.PostAsync(url,content);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var exception = await response.Content.ReadFromJsonAsync<CustomApiException>();
+                throw exception;
+            }
+
         }
     }
 }

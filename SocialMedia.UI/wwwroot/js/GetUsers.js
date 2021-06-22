@@ -77,8 +77,6 @@ function LoadData(url) {
                 var state_previous = (meta.hasPrevious != true) ? 'disabled' : '';
                 var state_next = (meta.hasNext != true) ? 'disabled' : '';
 
-                //var next_function = 'LoadData("/Users/GetUsersJson?' + 'PageNumber=' + parseInt(meta.currentPage + 1) + '");';
-                //var previous_function = 'LoadData("/Users/GetUsersJson?' + 'PageNumber=' + parseInt(meta.currentPage - 1) + '");';
                 var next_function = 'LoadData("/Users/GetUsersJson' + meta.nextPageUrl + '");';
                 var previous_function = 'LoadData("/Users/GetUsersJson' + meta.previousPageUrl + '");';
 
