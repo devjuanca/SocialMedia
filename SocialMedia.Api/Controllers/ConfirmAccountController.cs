@@ -24,7 +24,7 @@ namespace SocialMedia.Api.Controllers
         public async Task<IActionResult> Index([FromQuery]UserToken userToken)
         {
            await _accountConfirmed.Confirm(userToken);
-           return Content($"Your account has been confirmed.");
+            return Redirect(userToken.ReturnUrl);
         }
 
 

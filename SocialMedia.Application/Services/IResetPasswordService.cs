@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
 using PasswordGenerator;
+using SocialMedia.Application.DTOs;
 using SocialMedia.Application.Entities;
 using SocialMedia.Domain.Entities;
 using System;
@@ -11,7 +12,7 @@ namespace SocialMedia.Application.Services
 {
     public interface IResetPasswordService
     {
-        Task SendTokenToUser(string userName);
+         Task SendTokenToUser(PasswordResetDTO paswordResetDTO);
          Task ResetPassword(UserToken userToken);
     }
 
@@ -27,9 +28,9 @@ namespace SocialMedia.Application.Services
             _uriService = uriService;
         }
 
-        public async Task SendTokenToUser(string userName)
+        public async Task SendTokenToUser(PasswordResetDTO paswordResetDTO)
         {
-            var user = await _userManaager.FindByNameAsync(userName);
+            var user = await _userManaager.FindByNameAsync(paswordResetDTO.Username);
             var token = await _userManaager.GeneratePasswordResetTokenAsync(user);
 
 
@@ -41,7 +42,7 @@ namespace SocialMedia.Application.Services
             {
                 Subject = "Reset Password Request",
                 Body = $"Hi, you have requested to reset your password. Please click the following link " +
-                 $"{_uriService.GetIdentityTokenConfirmationUri(userToken, "/api/AccountManagement/PerformResetPassword/")}",
+                 $"{_uriService.GetIdentityTokenConfirmationUri(userToken, "/api/AccountManagement/PerformResetPassword/",paswordResetDTO.ReturnUrl)}",
                 ToEmail = user.Email
             });
 

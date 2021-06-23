@@ -23,8 +23,14 @@ namespace SocialMedia.UI.Controllers
             _postsService = postsService;
         }
 
-
+        
+        [Route("/SocialPost/GetPosts/")]
         public IActionResult GetPosts()
+        {
+            return View();
+        }
+        [Route("/SocialPost/GetPosts/{user_id}")]
+        public IActionResult GetPosts(string user_id)
         {
             return View();
         }
@@ -35,6 +41,9 @@ namespace SocialMedia.UI.Controllers
             try
             {
                 token = HttpContext.Session.GetString("JwtToken");
+
+
+
                 var data = await _postsService.GetPosts("Post",filter, token);
                 
                 return Json(new { data = data, result = "Ok" });

@@ -67,8 +67,8 @@ function LoadData(url) {
                         '<p class="card-text">' + obj[i].phone + '</p>' +
                         '<p class="card-text">' + new Date(obj[i].birthDate).toDateString() + '</p>' +
                         '<p class="card-text">' + obj[i].countryName + '</p>' +
-                        '<a href="#" class="btn btn-primary mb-2">More details</a>' +
-                        '<a href="#" class="btn btn-primary">Check my posts</a>' +
+                        '<a href="/Users/GetUserDetails/?id=' + obj[i].id + '" class="btn btn-primary mb-2" > More details</a > ' +
+                        '<a href="/SocialPost/GetPosts/?userId=' + obj[i].id + '"  class="btn btn-primary">Check my posts</a>' +
                         '</div></div>'
                 }
 
@@ -136,5 +136,6 @@ function LoadCountries() {
             
     });
 }
+
 
 

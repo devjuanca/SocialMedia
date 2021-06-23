@@ -32,6 +32,7 @@ namespace SocialMedia.Application.Services
             {
                 var user = await _userManager.FindByIdAsync(userToken.UserId);
                 var decode_token = WebEncoders.Base64UrlDecode(userToken.Token);
+                var returnUrl = userToken.ReturnUrl;
                 var validToken = Encoding.UTF8.GetString(decode_token);
 
                 var result = await _userManager.ConfirmEmailAsync(user, validToken);

@@ -68,6 +68,12 @@ namespace SocialMedia.Application.Repository.Post.Gets
                 {
                     temp = temp.Where(a => a.User_Id == filters.Id);
                 }
+
+                if (filters.UserId != null)
+                {
+                    temp = temp.Where(a => a.User_Id == filters.UserId);
+                }
+
                 if (filters.DescriptionSearch != null)
                 {
                     temp = temp.Where(a => a.Description.ToLower().Contains(filters.DescriptionSearch.ToLower()));
@@ -106,45 +112,45 @@ namespace SocialMedia.Application.Repository.Post.Gets
 
         }
 
-        static IQueryable<PostDTO> OrderPosts(PostQueryFilter filters, IQueryable<PostDTO> temp)
-        {
+        //static IQueryable<PostDTO> OrderPosts(PostQueryFilter filters, IQueryable<PostDTO> temp)
+        //{
 
 
-            switch (filters.OrderProperty)
-            {
-                case PostOrderProperties.SMUserName:
-                    {
-                        if (filters.OrderDirection == OrderDirection.ASC)
-                        {
-                            temp = temp.AsNoTracking().OrderBy(a => a.SMUserName);
-                        }
-                        else
-                        {
-                            temp = temp.AsNoTracking().OrderByDescending(a => a.SMUserName);
-                        }
-                    }
-                    break;
-                case PostOrderProperties.Date:
-                    {
-                        if (filters.OrderDirection == OrderDirection.ASC)
-                        {
-                            temp = temp.AsNoTracking().OrderBy(a => a.Date);
-                        }
-                        else
-                        {
-                            temp = temp.AsNoTracking().OrderByDescending(a => a.Date);
-                        }
-                    }
-                    break;
-                default:
-                    {
-                        temp = temp.AsNoTracking().OrderByDescending(a => a.Date);
-                    }
-                    break;
-            }
+        //    switch (filters.OrderProperty)
+        //    {
+        //        case PostOrderProperties.SMUserName:
+        //            {
+        //                if (filters.OrderDirection == OrderDirection.ASC)
+        //                {
+        //                    temp = temp.AsNoTracking().OrderBy(a => a.SMUserName);
+        //                }
+        //                else
+        //                {
+        //                    temp = temp.AsNoTracking().OrderByDescending(a => a.SMUserName);
+        //                }
+        //            }
+        //            break;
+        //        case PostOrderProperties.Date:
+        //            {
+        //                if (filters.OrderDirection == OrderDirection.ASC)
+        //                {
+        //                    temp = temp.AsNoTracking().OrderBy(a => a.Date);
+        //                }
+        //                else
+        //                {
+        //                    temp = temp.AsNoTracking().OrderByDescending(a => a.Date);
+        //                }
+        //            }
+        //            break;
+        //        default:
+        //            {
+        //                temp = temp.AsNoTracking().OrderByDescending(a => a.Date);
+        //            }
+        //            break;
+        //    }
 
-            return temp;
-        }
+        //    return temp;
+        //}
 
         public async Task<PostDTO> GetPostById(int post_id)
         {

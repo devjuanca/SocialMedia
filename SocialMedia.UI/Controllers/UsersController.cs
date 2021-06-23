@@ -46,6 +46,14 @@ namespace SocialMedia.UI.Controllers
             }
         }
 
+        public async Task<IActionResult> GetUserDetails(string id)
+        {
+            token = HttpContext.Session.GetString("JwtToken");
+            var data = await _userService.GetUserDetails("SMUser/GetSMUserDetails", id, token);
+
+            return View(data);
+        }
+
         [AllowAnonymous]
         public async Task<IActionResult> NewUser()
         {
@@ -194,7 +202,7 @@ namespace SocialMedia.UI.Controllers
             {
                 await _userService.ForgotPassword("AccountManagement/ResetPassword", forgotPassword);
                 TempData["Message"] = "Please check your email to continue with the process.";
-                return View();
+                return Redirect(forgotPassword.ReturnUrl);
             }
             catch (CustomApiException ex)
             {

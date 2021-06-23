@@ -1,8 +1,16 @@
 ﻿$(document).ready(() => {
 
-    LoadData("GetJsonPosts");
 
-  
+    var user_id = getParameterByName("userId")
+
+    if (user_id == null)
+        LoadData("GetJsonPosts");
+    else {
+      
+        LoadData("/SocialPost/GetJsonPosts" + "?userId=" + user_id);
+    }
+
+
 
     $("#comment_Button").click(function () {
        
@@ -33,14 +41,16 @@
 
     });
 
-
     $("#search_button").click(function () {
 
         var description = $('#description_input').val();
         var date = $('#date_input').val();
 
 
-        var queryString = description != null ? "descriptionSearch=" + description + "&" : null;
+        var queryString = user_id != null ? "userId=" + user_id + "&" : null;
+
+        queryString += description != null ? "descriptionSearch=" + description + "&" : null;
+
         queryString += date != null ? "date=" + date + "&" : null;
 
         queryString = queryString.substr(0, queryString.length - 1);
@@ -50,17 +60,8 @@
 
 
     });
-
-
-
-
-
-
 });
 
-function ModalAndPostCod(cod) {
-    $("#PostValue").val(cod);
-}
 
 function LoadData(url) {
     $("#search_button").prop("disabled", true)
@@ -79,7 +80,8 @@ function LoadData(url) {
                 for (var i = 0; i < obj.length; i++) {
                     content += '<div class="card mb-3" style="max-width: 90%;">' +
                         '<div class="row g-0"> <div class="col-md-2"><img height="150" src="' + obj[i].profilePhoto + '" alt="..."></div> <div class="col-md-10">' +
-                        '<div class="card-body pt-1"><p id="post_Text"><h5 id="username_Post" class="card-title">' + obj[i].name + '</h5></p>' +
+                        '<div class="card-body pt-1"><p id="post_Text"><h5 id="username_Post" class="card-title">' + obj[i].name + ' - ' +
+                        new Date(obj[i].date).toDateString() + '</h5></p>' +
                         '<div class="col-12 mb-3 ml-1 text-justify">' + obj[i].description + "</div>";
                     var comments = obj[i].comments;
                     if (comments != null)
@@ -136,4 +138,17 @@ function LoadData(url) {
 
 
 
+}
+
+function ModalAndPostCod(cod) {
+    $("#PostValue").val(cod);
+}
+
+function getParameterByName(name, url = window.location.href) {
+    name = name.replace(/[\[\]]/g, '\\$&');
+    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, ' '));
 }

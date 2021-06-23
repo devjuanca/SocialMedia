@@ -72,7 +72,7 @@ namespace SocialMedia.Application.Repository.SMUser.Posts
                 //Inserto el nuevo usuario y obtengo un resultado.
 
                 if(result.Succeeded)
-                    await _confirmEmail.ConfirmUserEmail(user);
+                    await _confirmEmail.ConfirmUserEmail(user, userDTO.ReturnUrl);
                 //si el resultado es exitoso envio confirmación por email.
 
                 if (!result.Succeeded)

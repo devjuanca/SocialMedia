@@ -18,7 +18,7 @@ namespace SocialMedia.Application.Repository.AdminUser
 {
     public interface IAdminUser
     {
-        Task CreateNewAdmin(SMUserComandDTO SMUserDTO);
+        Task CreateNewAdmin(SMUserComandDTO SMUserDTO, string returnUrl);
         Task ModifyRolesToUser(RolesInUser param);
         Task<PagedList<UsersWithRolesVM>> GetAllAdmins(SMUserQueryFilter filter);
     }
@@ -40,7 +40,7 @@ namespace SocialMedia.Application.Repository.AdminUser
             _ctx = ctx;
         }
 
-        public async Task CreateNewAdmin(SMUserComandDTO SMUserDTO)
+        public async Task CreateNewAdmin(SMUserComandDTO SMUserDTO, string returnUrl)
         {
             try
             {

@@ -36,9 +36,9 @@ namespace SocialMedia.Api.Controllers
         [HttpPost("CreateNewAdmin")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> CreateNewAdmin(SMUserComandDTO SMUserDTO)
+        public async Task<IActionResult> CreateNewAdmin(SMUserComandDTO SMUserDTO, string returnUrl)
         {
-            await _adminUser.CreateNewAdmin(SMUserDTO);
+            await _adminUser.CreateNewAdmin(SMUserDTO, returnUrl);
             return Ok();
         }
 
