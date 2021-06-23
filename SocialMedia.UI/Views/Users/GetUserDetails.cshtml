@@ -1,0 +1,76 @@
+﻿@model SocialMedia.UI.ViewModels.UserDetailsViewModel
+
+@{
+    ViewData["Title"] = "GetUserDetails";
+}
+
+<h1>User Details</h1>
+
+<div>
+
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            <img class="img-thumbnail" src="@Model.PhotoRoute" alt="profilephoto" height="200" />
+        </dt>
+        <dd class="col-sm-10">
+            
+        </dd>
+        <dt class="col-sm-2">
+            Name:
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class="col-sm-2">
+            Lastname:
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Lastname)
+        </dd>
+        <dt class="col-sm-2">
+            Email:
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+        <dt class="col-sm-2">
+            Birthdate:
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.BirthDate)
+        </dd>
+        <dt class="col-sm-2">
+            Phone:
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Phone)
+        </dd>
+
+        <dt class="col-sm-2">
+            Country:
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CountryName)
+        </dd>
+        <dt class="col-sm-2">
+            Username:
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.UserName)
+        </dd>
+        <dt class="col-sm-2">
+            Posts Count
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CantPost)
+        </dd>
+        <dt class="col-sm-2">
+            Comments Count
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CantComment)
+        </dd>
+    </dl>
+</div>
+

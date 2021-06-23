@@ -35,7 +35,8 @@ namespace SocialMedia.UI.Services
         {
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
-            var response = await _httpClient.GetAsync($"{url}{filter.ToString()}");
+            var query_string = filter.ToString();
+            var response = await _httpClient.GetAsync($"{url}{query_string}");
 
             if (!response.IsSuccessStatusCode)
             {

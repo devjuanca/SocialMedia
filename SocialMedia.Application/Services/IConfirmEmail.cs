@@ -9,7 +9,7 @@ namespace SocialMedia.Application.Services
 {
     public interface IConfirmEmail
     {
-        Task<bool> ConfirmUserEmail(SMUser user);
+        Task<bool> ConfirmUserEmail(SMUser user, string returnUrl);
     }
 
 
@@ -24,7 +24,7 @@ namespace SocialMedia.Application.Services
             _emailService = emailService;
             _uriService = uriService;
         }
-        public async Task<bool> ConfirmUserEmail(SMUser user)
+        public async Task<bool> ConfirmUserEmail(SMUser user, string returnUrl)
         {
             string token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
             var encodingToken = Encoding.UTF8.GetBytes(token);
@@ -40,7 +40,7 @@ namespace SocialMedia.Application.Services
             {
                 Subject = "Confirmation Email",
                 Body = $"Hello Mr. {user.Lastname} Please click in the link below to confirm your email address. " +
-                $"{_uriService.GetIdentityTokenConfirmationUri(userToken, "/api/ConfirmAccount/")}",
+                $"{_uriService.GetIdentityTokenConfirmationUri(userToken, "/api/ConfirmAccount/",returnUrl)}",
                 ToEmail = user.Email
             };
 

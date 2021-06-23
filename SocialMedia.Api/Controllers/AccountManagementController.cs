@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SocialMedia.Application.DTOs;
 using SocialMedia.Application.Entities;
 using SocialMedia.Application.Services;
 using SocialMedia.Domain.Entities.CustomEntities;
@@ -34,9 +35,9 @@ namespace SocialMedia.Api.Controllers
         }
      
         [HttpPost("ResetPassword")]
-        public async Task<IActionResult> ResetPassword(ForgotPassword forgotPassword)
+        public async Task<IActionResult> ResetPassword(PasswordResetDTO passwordResetDTo)
         {
-            await _resetPasswordService.SendTokenToUser(forgotPassword.Username);
+            await _resetPasswordService.SendTokenToUser(passwordResetDTo);
             return Ok();
         }
         
@@ -44,7 +45,7 @@ namespace SocialMedia.Api.Controllers
         public async Task<IActionResult> PerformResetPassword([FromQuery] UserToken userToken)
         {
             await _resetPasswordService.ResetPassword(userToken);
-            return View("~/Views/PasswordResetSucceded.cshtml");
+            return Redirect(userToken.ReturnUrl);
         }
     }
 }

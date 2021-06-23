@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Text;
 
-namespace SocialMedia.UI.Models
+namespace SocialMedia.Application.DTOs
 {
-    public class ForgotPasswordModel
-    {
+   public class PasswordResetDTO
+    { 
         public string Username { get; set; }
         public string ReturnUrl { get; set; }
     }

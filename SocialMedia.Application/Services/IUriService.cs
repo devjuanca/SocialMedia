@@ -11,7 +11,7 @@ namespace SocialMedia.Application.Services
     {
         string GetPaginationUri(IPagingFilter filter, string actionUr,PagingUriDirection pagingDirection);
         Uri GetCreatedEntityQueryUri(string actionUrl, string id);
-        public Uri GetIdentityTokenConfirmationUri(UserToken userToken, string actionUrl);
+        public Uri GetIdentityTokenConfirmationUri(UserToken userToken, string actionUrl, string returnUrl);
 
         public string BaseUri { get; }
     }
@@ -35,9 +35,9 @@ namespace SocialMedia.Application.Services
 
 
 
-        public Uri GetIdentityTokenConfirmationUri(UserToken userToken, string actionUrl)
+        public Uri GetIdentityTokenConfirmationUri(UserToken userToken, string actionUrl, string returnUrl)
         {
-            return new Uri($"{_baseUri}{actionUrl}?UserId={userToken.UserId}&Token={userToken.Token}");
+            return new Uri($"{_baseUri}{actionUrl}?UserId={userToken.UserId}&Token={userToken.Token}&ReturnUrl={returnUrl}");
         }
 
         public string GetPaginationUri(IPagingFilter filter, string actionUrl, PagingUriDirection pagingDirection)

@@ -8,5 +8,7 @@ namespace SocialMedia.Application.Entities
     {
         public string UserId{ get; set; }
         public string Token { get; set; }
+
+        public string ReturnUrl { get; set; }
     }
 }

@@ -15,6 +15,7 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
+using SocialMedia.Application.ViewModels;
 
 namespace SocialMedia.Api.Controllers
 {
@@ -146,6 +147,24 @@ namespace SocialMedia.Api.Controllers
             var response = new ApiSingleResponse<SMUserDTO>(await _SMUser_Gets.SearchSMUserByName(name));
             return Ok(response);
         }
+
+
+        [Authorize]
+        [HttpGet("GetSMUserDetails/{id}")]
+        [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ApiSingleResponse<UserDetailsViewModel>))]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest, Type = typeof(GenericExceptionResult))]
+        [ProducesResponseType((int)HttpStatusCode.InternalServerError, Type = typeof(GenericExceptionResult))]
+        [ProducesResponseType((int)HttpStatusCode.NotFound, Type = typeof(GenericExceptionResult))]
+        public async Task<IActionResult> GetSMUserDetails(string id)
+        {
+            var response = new ApiSingleResponse<UserDetailsViewModel>(await _SMUser_Gets.GetUserDetails(id));
+            return Ok(response);
+        }
+
+
+
+
+
 
         /// <summary>
         /// Creates a new SMUser.

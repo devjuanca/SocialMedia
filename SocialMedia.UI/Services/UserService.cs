@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using SocialMedia.UI.Exceptions;
 using SocialMedia.UI.Models;
@@ -18,6 +19,8 @@ namespace SocialMedia.UI.Services
 {
     public interface IUserService
     {
+        
+
         Task ManageUser(string url, UserModel user, IFormFile image, int accion, string token);
         Task DeleteUser(string url, string id, string token);
         Task ChangePassword(string url, ChangePasswordModel change_password, string token);
@@ -25,17 +28,20 @@ namespace SocialMedia.UI.Services
 
         Task<UserListViewModel> GetUsers(string url, UserQueryFilter filter, string token);
         Task<UserModel> GetUserById(string url, string id, string token);
+
+        Task<UserDetailsViewModel> GetUserDetails(string url, string id, string token);
     }
 
     public class UserService : IUserService
     {
         readonly HttpClient _httpClient;
         readonly IHttpClientFactory _httpClientFactory;
-
-        public UserService(IHttpClientFactory httpClientFactory)
+        IHttpContextAccessor _accesor;
+        public UserService(IHttpClientFactory httpClientFactory, IHttpContextAccessor accesor)
         {
             _httpClientFactory = httpClientFactory;
             _httpClient = _httpClientFactory.CreateClient("ClientSMApi");
+            _accesor = accesor;
         }
 
         public async Task<UserListViewModel> GetUsers(string url, UserQueryFilter filter, string token)
@@ -90,6 +96,12 @@ namespace SocialMedia.UI.Services
             HttpResponseMessage response = null;
             if (accion == 0)  //Insert
             {
+               
+                var request = _accesor.HttpContext.Request;
+                var absoluteUri = string.Concat(request.Scheme, "://", request.Host.ToUriComponent());
+               
+
+                new_user.ReturnUrl = absoluteUri + "/Login/Login";
                 HttpContent content = new StringContent(JsonConvert.SerializeObject(new_user), Encoding.UTF8, "application/json");
                 response = await _httpClient.PostAsync(url, content);
             }
@@ -123,6 +135,20 @@ namespace SocialMedia.UI.Services
 
         }
 
+        public async Task<UserDetailsViewModel> GetUserDetails(string url, string id, string token)
+        {
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            var response = await _httpClient.GetAsync($"{url}/{id}");
+            if (response.IsSuccessStatusCode)
+            {
+                var userModel = await response.Content.ReadFromJsonAsync<UserDetailObject>();
+                return userModel.data;
+            }
+            else
+                throw new Exception(response.ReasonPhrase);
+        }
+
         public async Task ChangePassword(string url, ChangePasswordModel change_password, string token)
         {
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
@@ -140,6 +166,11 @@ namespace SocialMedia.UI.Services
 
         public async Task ForgotPassword(string url, ForgotPasswordModel forgotPassword)
         {
+            var request = _accesor.HttpContext.Request;
+            var absoluteUri = string.Concat(request.Scheme, "://", request.Host.ToUriComponent());
+
+            forgotPassword.ReturnUrl = absoluteUri+"/Login/Login";
+
             HttpContent content = new StringContent(JsonConvert.SerializeObject(forgotPassword), Encoding.UTF8, "application/json");
 
             var response = await _httpClient.PostAsync(url, content);
