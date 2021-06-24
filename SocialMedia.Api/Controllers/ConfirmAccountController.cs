@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace SocialMedia.Api.Controllers
 {
     [Produces("application/json")]
-    [Route("api/[controller]")]
+    [Route("api/sm/[controller]")]
     [ApiController]
     public class ConfirmAccountController : ControllerBase
     {
