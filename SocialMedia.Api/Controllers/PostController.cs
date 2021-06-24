@@ -17,7 +17,7 @@ namespace SocialMedia.Api.Controllers
 {
     [Authorize]
     [Produces("application/json")]
-    [Route("api/[controller]")]
+    [Route("api/sm/[controller]")]
     [ApiController]
     public class PostController : ControllerBase
     {

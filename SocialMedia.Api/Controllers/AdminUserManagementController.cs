@@ -19,7 +19,7 @@ namespace SocialMedia.Api.Controllers
 {
     [Authorize(Roles ="Admin")]
     [Produces("application/json")]
-    [Route("api/[controller]")]
+    [Route("api/sm/[controller]")]
     [ApiController]
     public class AdminUserManagementController : Controller
     {

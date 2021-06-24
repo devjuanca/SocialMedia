@@ -69,12 +69,13 @@ namespace SocialMedia.UI.Controllers
             try
             {
                 await _userService.ManageUser("SMUser", new_user.SMUser, new_user.Image, 0, token);
+                TempData["Message"] = "Enhorabuena, solo un paso más!! Le hemos enviado un email desde donde podrá confirmar su cuenta. Muchas Gracias.";
                 return RedirectToAction("Login", "Login");
 
             }
             catch (CustomApiException ex)
             {
-                TempData["Message"] = ex.Errors.MyToString();
+                
                 return RedirectToAction("NewUser");
             }
             catch (Exception)

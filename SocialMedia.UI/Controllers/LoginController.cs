@@ -55,7 +55,7 @@ namespace SocialMedia.UI.Controllers
 
                 HttpContext.Session.SetString("JwtToken", token); //Guardo el Token en Sesion.
 
-                return RedirectToAction("GetUsers", "Users");
+                return RedirectToAction( "GetPosts","SocialPost");
             }
             catch (CustomApiException ex)
             {
